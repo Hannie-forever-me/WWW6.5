@@ -47,6 +47,15 @@ contract VaultManager {
         return address(box);
     }
 
+    function nameBox(address boxAddress, string calldata name) external onlyBoxOwner(boxAddress) {
+        boxNames[boxAddress] = name;
+        emit BoxNamed(boxAddress, name);
+    }
+
+    function storeSecret(address boxAddress, string calldata secret) external onlyBoxOwner(boxAddress) {
+        IDepositBox box = IDepositBox(boxAddress);
+        box.storeSecret(secret);
+    }
 
     function transferBoxOwnership(address boxAddress, address newOwner) external onlyBoxOwner(boxAddress){
         IDepositBox box = IDepositBox(boxAddress);
